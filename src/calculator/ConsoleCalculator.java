@@ -9,5 +9,6 @@ public class ConsoleCalculator {
         String expression = scanner.nextLine();
         System.out.print("Result is: ");
         System.out.println(Calculator.calculate(expression));
+        scanner.close();
     }
 }

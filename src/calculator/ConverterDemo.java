@@ -8,5 +8,6 @@ public class ConverterDemo {
         System.out.println("Enter Roman number:");
         String romanNumber = scanner.next();
         System.out.println("Arabic: " + RomanToArabicConverter.convert(romanNumber));
+        scanner.close();
     }
 }
