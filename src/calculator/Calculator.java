@@ -3,48 +3,76 @@ package calculator;
 import java.util.Stack;
 
 public class Calculator {
+    private  static Stack<Character> operators = new Stack<>();
+    private static Stack<Double> nums = new Stack<>();
 
     public static double calculate (String expression) {
-        Stack<Character> operators = new Stack<>();
-        Stack<Double> nums = new Stack<>();
+        boolean prevIsOperator = true;
         for (int i = 0; i < expression.length(); i++) {
             if (expression.charAt(i) == ' ') {
                 continue;
             }
-            if (isArabicNumber(expression.charAt(i))) {
-                StringBuilder temp = new StringBuilder();
-                while (i < expression.length() && isArabicNumber(expression.charAt(i))) {
-                    temp.append(expression.charAt(i));
-                    i++;
-                }
-                nums.push(Double.parseDouble(temp.toString()));
-                i--;
-            } else if (isRomanNumber(expression.charAt(i))) {
-                StringBuilder temp = new StringBuilder();
-                while (i < expression.length() && isRomanNumber(expression.charAt(i))) {
-                    temp.append(expression.charAt(i));
-                    i++;
-                }
-                nums.push((double) RomanToArabicConverter.convert(temp.toString()));
-                i--;
+            if (isArabicNumber(expression.charAt(i)) || isRomanNumber(expression.charAt(i))) {
+                i = pushNumber(expression, i);
+                prevIsOperator = false;
             } else if (expression.charAt(i) == '(') {
                 operators.push(expression.charAt(i));
+                prevIsOperator = true;
             } else if (expression.charAt(i) == ')') {
                 while (operators.peek() != '(') {
                     nums.push(performOperator(operators.pop(), nums.pop(), nums.pop()));
                 }
                 operators.pop();
+                prevIsOperator = true;
             } else if (isOperator(expression.charAt(i))) {
+                if (expression.charAt(i) == '-' && prevIsOperator) {
+                    i++;
+                    i = pushNumber(expression, i);
+                    nums.push(-nums.pop());
+                    prevIsOperator = false;
+                    continue;
+                }
                 while (!operators.empty() && hasPrecedence(expression.charAt(i), operators.peek())) {
                     nums.push(performOperator(operators.pop(), nums.pop(), nums.pop()));
                 }
                 operators.push(expression.charAt(i));
+                prevIsOperator = true;
             }
         }
         while (!operators.empty()) {
             nums.push(performOperator(operators.pop(), nums.pop(), nums.pop()));
         }
         return nums.pop();
+    }
+
+    private  static int pushNumber(String expression, int i) {
+        if (isArabicNumber(expression.charAt(i))) {
+            return pushArabicNumber(expression, i);
+        } else {
+            return pushRomanNumber(expression, i);
+        }
+    }
+
+    private static int pushRomanNumber(String expression, int i) {
+        StringBuilder temp = new StringBuilder();
+        while (i < expression.length() && isRomanNumber(expression.charAt(i))) {
+            temp.append(expression.charAt(i));
+            i++;
+        }
+        nums.push((double) RomanToArabicConverter.convert(temp.toString()));
+        i--;
+        return i;
+    }
+
+    private static int pushArabicNumber(String expression, int i) {
+        StringBuilder temp = new StringBuilder();
+        while (i < expression.length() && isArabicNumber(expression.charAt(i))) {
+            temp.append(expression.charAt(i));
+            i++;
+        }
+        nums.push(Double.parseDouble(temp.toString()));
+        i--;
+        return i;
     }
 
     private static boolean isArabicNumber(char num) {
@@ -84,4 +112,6 @@ public class Calculator {
                 return 0;
         }
     }
+
+
 }
