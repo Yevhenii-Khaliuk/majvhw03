@@ -1,4 +1,4 @@
-package calculator;
+package com.khaliuk.calculator;
 
 public class RomanToArabicConverter {
     private enum RomanNumbers {

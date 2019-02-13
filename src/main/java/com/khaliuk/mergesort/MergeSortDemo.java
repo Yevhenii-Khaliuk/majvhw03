@@ -1,4 +1,4 @@
-package mergesort;
+package com.khaliuk.mergesort;
 
 import java.util.Random;
 
