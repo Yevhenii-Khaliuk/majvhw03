@@ -15,5 +15,4 @@ public class MergeSortTest {
         MergeSort.sort(actualResult);
         assertArrayEquals(expectedResult, actualResult);
     }
-
 }

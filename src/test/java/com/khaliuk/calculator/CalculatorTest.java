@@ -33,5 +33,4 @@ public class CalculatorTest {
     public void testCalculateThrowArithmeticExceptionOnDivisionByZero() {
         Calculator.calculate("1 / 0");
     }
-
 }
