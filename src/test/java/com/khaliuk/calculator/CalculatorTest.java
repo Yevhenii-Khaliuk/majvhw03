@@ -28,4 +28,10 @@ public class CalculatorTest {
         double actualResult = Calculator.calculate("C * (II + XII) / XIV");
         assertEquals(expectedResult, actualResult, 0.001);
     }
+
+    @Test(expected = ArithmeticException.class)
+    public void testCalculateThrowArithmeticExceptionOnDivisionByZero() {
+        Calculator.calculate("1 / 0");
+    }
+
 }

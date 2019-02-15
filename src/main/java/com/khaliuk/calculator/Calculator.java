@@ -107,6 +107,9 @@ public class Calculator {
             case '*':
                 return leftNum * rightNum;
             case '/':
+                if (rightNum == 0) {
+                    throw new ArithmeticException("Division by zero is not supported!");
+                }
                 return leftNum / rightNum;
             default:
                 return 0;
