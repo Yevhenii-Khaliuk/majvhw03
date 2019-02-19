@@ -1,4 +1,4 @@
-package mergesort;
+package com.khaliuk.mergesort;
 
 public class MergeSort {
     public static void sort(int[] array) {
